@@ -14,6 +14,8 @@ find_package(Eigen3 REQUIRED)
 # Create executable
 add_executable(poisson_solver
     src/main.cpp
+    src/Grid.cpp
+    src/PoissonSolver.cpp
 )
 
 # Link Eigen (header-only, modern way)
