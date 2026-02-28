@@ -36,7 +36,7 @@ poisson-solver/
 
 Requires:
 
-- C++20 (but probably runs fine on olver versions)
+- C++20 (but probably runs fine on older versions)
 - CMake
 
 Build with:
@@ -67,3 +67,4 @@ Example solution for a 5×5 grid with boundary value u=1:
 1 0.03 0.016 0.03 1
 1 1 1 1 1
 ```
+
