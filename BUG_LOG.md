@@ -1,4 +1,29 @@
-# 20260228
+# 20260228-4
+
+### Bug: Solver is not computing solution correctly
+
+Cause: FTCS implementation is incorect
+	
+```math
+\text{former: } u_{n+1}=s+dt\cdot u_n+dt \cdot \alpha \Delta u_n
+```
+
+Solution: Write the implementation correctly dummy.
+
+```math
+\text{new: } u_{n+1} = u_n + s\cdot dt + \alpha \cdot dt \cdot \Delta u_n
+```
+
+
+# 20260228-3
+
+### Bug: At large grid sizes, solutions blow up.
+
+# 20260228-2
+
+### Bug: When dt is set to 1, solver sets the grid as all ones.
+
+# 20260228-1
 
 ### Bug: Solver does not compute properly for NxN wherein N is even.
 

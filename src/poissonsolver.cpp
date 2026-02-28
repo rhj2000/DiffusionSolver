@@ -1,6 +1,7 @@
 #include "poissonsolver.hpp"
 #include "grid.hpp"
 #include <iostream>
+#include <fstream>
 
 namespace poisson_ns {
 
@@ -8,6 +9,11 @@ namespace poisson_ns {
 
 PoissonSolver::PoissonSolver(const grid_ns::Grid &g, double dt, double alpha) : grid_(g), dt_(dt), alpha_(alpha)
 {
+	double stability = grid_.dx() * grid_.dx() / (4*alpha);
+	std::cout << "timestep: " << dt << '\n';
+	std::cout << "(1/4)*dx^2 / D = " << stability << '\n';
+	std::cout << "timestep must be leq to stability criterion.";
+
 	int N = grid_.size();
 	u_.resize(N);
 	u_new_.resize(N);
@@ -26,7 +32,8 @@ PoissonSolver::PoissonSolver(const grid_ns::Grid &g, double dt, double alpha) : 
 void PoissonSolver::setBoundaryConditions() {
 	int nx = grid_.nx();
 	int ny = grid_.ny();
-	//initialize with dirichlet boundary conditions
+	//initialize with dirichlet boundary conditions (won't change at any point in the simulation)
+	/*
 	for (int i{ 0 }; i < nx; i++) {
 		u_[grid_.index(i, 0)] = 1.0; //left boundary
 		u_[grid_.index(i, nx - 1)] = 1.0; //right boundary
@@ -36,6 +43,7 @@ void PoissonSolver::setBoundaryConditions() {
 		u_[grid_.index(0, j)] = 1.0; //top boundary
 		u_[grid_.index(ny - 1, j)] = 1.0; //bottom boundary
 	}
+	*/
 
 }
 
@@ -51,22 +59,44 @@ void PoissonSolver::solve(int steps){
 		for (int i{ 1 }; i < nx - 1; i++) {
 			for (int j{ 1 }; j < ny - 1; j++) {
 				//can try to build a tensor object from scratch later
-				//for now, let's just generate u_ and u_new
+				//for now, let's just generate u_ and u_new 
 				int k = grid_.index(i, j); //the 2D->1D mapping at the core of the grid class
 				int k_up = grid_.index(i, j - 1);
 				int k_right = grid_.index(i + 1, j);
 				int k_down = grid_.index(i, j + 1);
 				int k_left = grid_.index(i - 1, j);
 
+				int s = 0;
+				if (i % 5 == 0) {
+					if (j % 5 == 0) {
+						s = 1;
+					}
+				}
+
+
 				//std::cout << k << " " << k_up << " " << k_right << " " << k_down << " " << k_left << '\n';
-				u_new_[k] = u_[k] * dt_ + alpha_ * dt_ * ((u_[k_right] + u_[k_left] - 2 * u_[k]) / (dx * dx)
+				u_new_[k] = u_[k] + s * dt_ + alpha_ * dt_ * ((u_[k_right] + u_[k_left] - 2 * u_[k]) / (dx * dx)
 					+ (u_[k_up] + u_[k_down] - 2 * u_[k]) / (dy * dy));
 			}
 			
 		}
 		u_.swap(u_new_); //replaces u_ with its values at the next timestep, then we loop again
 		setBoundaryConditions();
-		debug();
+		//debug();
+	}
+
+	std::ofstream outputFile("u.csv");
+	for (int i{ 0 }; i < nx; i++) {
+		for (int j{ 0 }; j < ny; j++) {
+			int k = grid_.index(i, j);
+			outputFile << u_[k];
+			// Add a comma if it's not the last element in the row
+			if (j < nx) {
+				outputFile << ",";
+			}
+		}
+		// Add a newline character at the end of each row
+		outputFile << "\n";
 	}
 	
 
