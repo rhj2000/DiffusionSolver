@@ -12,7 +12,7 @@ PoissonSolver::PoissonSolver(const grid_ns::Grid &g, double dt, double alpha) : 
 	double stability = grid_.dx() * grid_.dx() / (4*alpha);
 	std::cout << "timestep: " << dt << '\n';
 	std::cout << "(1/4)*dx^2 / D = " << stability << '\n';
-	std::cout << "timestep must be leq to stability criterion.";
+	std::cout << "timestep must be leq to stability criterion." << '\n';
 
 	int N = grid_.size();
 	u_.resize(N);
@@ -55,6 +55,9 @@ void PoissonSolver::solve(int steps){
 
 	//implement the stencil here (maybe later it can be put into another source file and namespace (stencil.ns?))
 	//implement FTCS as the solver method
+	//recall that (i,j) -> (row, column)
+	//this will have to be transposed for mapping to (x,y)
+	//as right now, (i,j) -> (row, column) -> (y, x)
 	for (int t{ 0 }; t < steps; t++) {
 		for (int i{ 1 }; i < nx - 1; i++) {
 			for (int j{ 1 }; j < ny - 1; j++) {
@@ -81,7 +84,7 @@ void PoissonSolver::solve(int steps){
 					if (j == 3*ny / 4) {
 						s = -10.0;
 					}
-				}
+				}	
 
 				if (i == 3*nx / 4) {
 					if (j == ny / 2) {
@@ -95,7 +98,7 @@ void PoissonSolver::solve(int steps){
 						s = 0;
 					}
 				}
-
+				
 
 				//std::cout << k << " " << k_up << " " << k_right << " " << k_down << " " << k_left << '\n';
 				u_new_[k] = u_[k] + s * dt_ + alpha_ * dt_ * ((u_[k_right] + u_[k_left] - 2 * u_[k]) / (dx * dx)
@@ -115,7 +118,7 @@ void PoissonSolver::solve(int steps){
 		for (int j = 0; j < ny; j++) {
 
 			int k = grid_.index(i, j);
-			int kT = j + ny * i;  // transposed index
+			int kT = j*ny + i;  // transposed index
 
 			u_T[kT] = u_[k];
 		}

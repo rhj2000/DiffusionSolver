@@ -8,10 +8,10 @@ int main() {
 	double dt{ 0.0001};
 	double alpha{ 0.1};
 	poisson_ns::PoissonSolver psolver(grid, dt, alpha);
-	psolver.solve(10000);
+	psolver.solve(1000);
 
 	//psolver.solve(100); //advance the FTCS method 100 times
-	psolver.debug();
+	//psolver.debug();
 	return 0;
 
 

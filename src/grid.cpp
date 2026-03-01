@@ -21,8 +21,9 @@ namespace grid_ns {
 	}
 
 	int Grid::index(int i, int j) const
-	{
-		return i + j * nx_;
+	{ 
+		// (i,j) -> (row, column) -> (y, x)
+		return i * nx_ + j;
 	}
 
 }
