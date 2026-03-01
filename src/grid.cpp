@@ -22,7 +22,7 @@ namespace grid_ns {
 
 	int Grid::index(int i, int j) const
 	{
-		return j + i * nx_;
+		return i + j * nx_;
 	}
 
 }

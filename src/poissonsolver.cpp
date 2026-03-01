@@ -66,10 +66,33 @@ void PoissonSolver::solve(int steps){
 				int k_down = grid_.index(i, j + 1);
 				int k_left = grid_.index(i - 1, j);
 
-				int s = 0;
-				if (i % 5 == 0) {
-					if (j % 5 == 0) {
-						s = 1;
+				double s = 0.0;
+				if (i == nx/4) {
+					if (j == ny / 2) {
+						s = 10.0;
+					}
+				}
+				if (i == nx / 2) {
+					if (j == ny / 4) {
+						s = -10.0;
+					}
+				}
+				if (i == nx / 2) {
+					if (j == 3*ny / 4) {
+						s = -10.0;
+					}
+				}
+
+				if (i == 3*nx / 4) {
+					if (j == ny / 2) {
+						s = 10.0;
+					}
+				}
+
+				//test charge
+				if (i == nx / 2) {
+					if (j == ny / 2) {
+						s = 0;
 					}
 				}
 
@@ -84,6 +107,21 @@ void PoissonSolver::solve(int steps){
 		setBoundaryConditions();
 		//debug();
 	}
+	//output must be transposed since index (i,j) -> (y,x) when we plot
+
+	std::vector<double> u_T(nx * ny);
+
+	for (int i = 0; i < nx; i++) {
+		for (int j = 0; j < ny; j++) {
+
+			int k = grid_.index(i, j);
+			int kT = j + ny * i;  // transposed index
+
+			u_T[kT] = u_[k];
+		}
+	}
+
+	u_.swap(u_T);
 
 	std::ofstream outputFile("u.csv");
 	for (int i{ 0 }; i < nx; i++) {
@@ -107,7 +145,7 @@ void PoissonSolver::debug(){
 	for (int i{ 0 }; i < grid_.nx(); ++i) {
 		for (int j{ 0 }; j < grid_.ny(); ++j) {
 			int k = grid_.index(i, j);
-			std::cout << u_[k] << " ";
+			std::cout << u_[k] << ' ';
 		}
 		std::cout << '\n'; //move to next row
 	}
