@@ -5,6 +5,10 @@ The solver uses a structured grid and explicit FTCS iteration with Dirichlet bou
 
 This is mostly a practical exercise, but I intend for it to evolve over time! (20260228 RH)
 
+Quadrupole Equipotential Contours |  Quadrupole Potential Surface
+:-------------------------:|:-------------------------:
+![](https://github.com/rhj2000/PoissonSolver/blob/main/poisson_contours.png)  |  ![](https://github.com/rhj2000/PoissonSolver/blob/main/poisson_surface.png)
+
 ## Problem
 
 This code solves the 2D Poisson equation:
@@ -67,4 +71,5 @@ Example solution for a 5×5 grid with boundary value u=1:
 1 0.03 0.016 0.03 1
 1 1 1 1 1
 ```
+
 
