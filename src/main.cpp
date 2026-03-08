@@ -5,6 +5,9 @@
 
 int main() {
 	grid_ns::Grid grid(100,100, 1, 1); //first we create the grid object to map 2D to 1D
+	//grid_ns::Grid::Index2D point {grid.cartesian_to_index2d(25,50)};
+	//std::cout << "(" << point.i << ", " << point.j << ")\n";
+
 	double dt{ 0.0001};
 	double alpha{ 0.1};
 	poisson_ns::PoissonSolver psolver(grid, dt, alpha);

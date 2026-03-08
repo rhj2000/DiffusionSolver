@@ -31,6 +31,13 @@ namespace grid_ns {
 
 		int index(int i, int j) const; //define the method that converts subscripts to linear indices
 
+		struct Index2D { //struct for (x,y) -> (i,j) helper function
+			int i;
+			int j;
+		};
+
+		const Index2D cartesian_to_index2d(int x, int y); // (x,y) coordinate helper function
+
 	};
 
 }
