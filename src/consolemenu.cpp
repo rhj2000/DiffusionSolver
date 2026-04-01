@@ -6,11 +6,19 @@
 #include "run_solver.hpp"
 #include <iostream>
 #include <limits> // for std::numeric_limits
+#include <cassert>
 
 namespace ui_ns {
 
 	void ConsoleMenu::catch_extraction_fail() {
+
 		if (!std::cin) { //If previous extraction failed
+
+			if (std::cin.eof()) // If the user entered an EOF
+			{
+				std::exit(0); // Shut down the program now
+			}
+
 			std::cin.clear(); //Revert to normal operation mode
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //Remove bad input
 		}
@@ -44,7 +52,7 @@ namespace ui_ns {
 				}
 				case 2:
 				{
-					std::cout << "do nothing.";
+					assert(false && "Need to add launch code for 3D...");
 					running = false;
 					menu_token = false;
 					break;

@@ -1,10 +1,10 @@
+#define DEBUG
 #include "diffusionsolver3d.hpp"
 #include "grid3d.hpp"
 #include "io.hpp"
 #include <iostream>
 #include <fstream>
 
-#define DEBUG
 
 
 namespace diffusion_ns {

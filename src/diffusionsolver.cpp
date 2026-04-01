@@ -1,11 +1,10 @@
+#define DEBUG //Comment in when debugging
 #include "diffusionsolver.hpp"
 #include "grid.hpp"
 #include "io.hpp"
 #include "consolewriter.hpp"
 #include <iostream>
 #include <fstream>
-
-#define DEBUG //Comment in when debugging
 
 namespace diffusion_ns {
 
